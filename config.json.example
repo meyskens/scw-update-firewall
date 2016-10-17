@@ -1,0 +1,8 @@
+{
+    "tag": "tag to look fir",
+    "authToken": "scaleway api token",
+    "ports": [
+        22,
+        2082
+    ]
+}
