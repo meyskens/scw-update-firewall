@@ -27,6 +27,13 @@ const checkServers = async () => {
             }
         }
 
+        // allow loopback
+        for (let port of global.config.ports) {
+            rules += `### tuple ### allow any ${port} 0.0.0.0/0 any 127.0.0.1 in\n`
+            rules += `-A ufw-user-input -p tcp --dport ${port} -s 127.0.0.1 -j ACCEPT\n`
+            rules += `-A ufw-user-input -p udp --dport ${port} -s 127.0.0.1 -j DROP\n\n`
+        }
+
         // deny
         for (let port of global.config.ports) {
             rules += `### tuple ### deny any ${port} 0.0.0.0/0 any 0.0.0.0/0 in\n`
