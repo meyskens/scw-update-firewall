@@ -1,20 +1,24 @@
 import fs from "fs"
 import * as scaleway from "./components/scaleway/api.js"
-const exec = require('child_process').exec;
+const exec = require("child_process").exec;
 
 let etcdPoweredIPs = []
 
 const checkServers = async () => {
-    const servers = (await scaleway.getAllServers()).servers
-
+    const serversPar = (await scaleway.getAllServers("par1")).servers
+    const serversAms = (await scaleway.getAllServers("ams1")).servers
+    const servers = serversPar.concat(serversAms)
     const currentEtcdPoweredIPs = []
 
     for (let server of servers) {
         if (server.tags.indexOf(global.config.tag) !== -1) {
-            server.private_ip && currentEtcdPoweredIPs.push(server.private_ip)
+            if (server.location && server.location.zone_id === global.config.region) {
+                server.private_ip && currentEtcdPoweredIPs.push(server.private_ip)
+            }
             server.public_ip && currentEtcdPoweredIPs.push(server.public_ip.address)
         }
     }
+
 
     if (currentEtcdPoweredIPs.toString() !== etcdPoweredIPs.toString()) {
         let rules = ""
