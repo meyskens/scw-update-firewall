@@ -1,6 +1,7 @@
 {
     "tag": "tag to look fir",
     "authToken": "scaleway api token",
+    "region": "par1",
     "ports": [
         22,
         2082
