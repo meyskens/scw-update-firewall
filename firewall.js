@@ -12,9 +12,7 @@ const checkServers = async () => {
 
     for (let server of servers) {
         if (server.tags.indexOf(global.config.tag) !== -1) {
-            if (server.location && server.location.zone_id === global.config.region) {
-                server.private_ip && currentEtcdPoweredIPs.push(server.private_ip)
-            }
+            server.private_ip && currentEtcdPoweredIPs.push(server.private_ip)
             server.public_ip && currentEtcdPoweredIPs.push(server.public_ip.address)
         }
     }
